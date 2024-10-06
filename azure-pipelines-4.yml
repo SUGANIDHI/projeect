@@ -1,0 +1,26 @@
+# Maven build pipeline configuration
+trigger:
+  branches:
+    include:
+      - main  # Replace with your default branch
+
+pool:
+  vmImage: 'ubuntu-latest'  # You can use 'windows-latest' or 'macOS-latest' if needed
+
+steps:
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'pom.xml'  # Path to your pom.xml
+    goals: 'clean install'   # Maven goals to execute
+    javaHomeOption: 'JDKVersion'  # Choose JDK version
+    jdkVersionOption: '1.8'  # Set Java version (change to 11 if needed)
+    mavenOptions: '-Xmx1024m' # Set Maven options
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+
+# Optional: If you want to store build artifacts
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/target'  # Path to build artifacts
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
