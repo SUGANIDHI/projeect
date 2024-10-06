@@ -1,0 +1,39 @@
+# azure-pipelines.yml
+
+# This triggers the pipeline on commits to the main branch.
+trigger:
+- main
+
+# Define the pool to use the hosted agent
+pool:
+  vmImage: 'ubuntu-latest'  # Using Ubuntu for this example
+
+# Define the steps to run in the job
+steps:
+  - checkout: self  # Checkout the code from the repository
+
+  # Step: Display a message
+  - script: echo "Running a temporary job without parallelism"
+    displayName: 'Echo message'
+
+  # Step: Run Maven build (uncomment when you are ready)
+  # - task: Maven@3
+  #   inputs:
+  #     mavenPomFile: 'pom.xml'  # Path to your Maven POM file
+  #     goals: 'clean install'  # Goals to run
+  #     options: '--batch-mode'  # Maven options
+  #     javaHomeOption: 'JDKVersion'
+  #     jdkVersionOption: '1.8'
+  
+  # Optional: Publish artifacts (uncomment when needed)
+  # - task: PublishBuildArtifacts@1
+  #   inputs:
+  #     pathToPublish: '$(Build.ArtifactStagingDirectory)'
+  #     artifactName: 'drop'
+
+  # Optional: Run tests (uncomment when you are ready)
+  # - task: Maven@3
+  #   inputs:
+  #     mavenPomFile: 'pom.xml'
+  #     goals: 'test'
+
